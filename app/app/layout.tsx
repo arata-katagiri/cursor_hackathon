@@ -1,6 +1,7 @@
 // BroQuest — authenticated app shell (frame + header + bottom nav)
 import { requireProfile } from "@/lib/auth";
 import BottomNav from "@/components/broquest/BottomNav";
+import RealtimeToasts from "@/components/broquest/RealtimeToasts";
 import "@/app/broquest.css";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -9,6 +10,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="bq-page">
       <div className="bq-app">
+        <RealtimeToasts userId={profile.id} />
         <header
           style={{
             display: "flex",
@@ -37,3 +39,4 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     </div>
   );
 }
+

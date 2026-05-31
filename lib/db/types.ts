@@ -94,8 +94,21 @@ export interface Quest {
   category: string;
   gesture: string;
   round_id: string | null;
+  proof_image_url: string | null;
+  ai_score: number | null;
+  ai_verdict: string | null;
+  ai_feedback: string | null;
+  proof_reviewed_at: string | null;
   created_at: string;
   completed_at: string | null;
+}
+
+/** AI verdict on a submitted proof photo. */
+export interface ProofReview {
+  score: number; // 0-100, how convincingly the photo shows the quest done
+  verdict: string; // short hype headline
+  feedback: string; // 1-2 encouraging sentences
+  passed: boolean;
 }
 
 export interface Cosmetic {

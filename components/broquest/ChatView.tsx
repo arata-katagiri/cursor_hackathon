@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Avatar from "./Avatar";
+import QuestProof from "./QuestProof";
 import { catById } from "./data";
 import { sendMessage } from "@/app/actions/chat";
 import { completeQuest } from "@/app/actions/quests";
 import { useRealtimeRefresh } from "./Realtime";
-import type { AvatarLook } from "@/lib/db/types";
+import type { AvatarLook, ProofReview } from "@/lib/db/types";
 
 export interface ChatMessage {
   id: string;
@@ -23,6 +24,8 @@ export interface ChatMessage {
     reward: number;
     status: string;
     canComplete: boolean;
+    proofImageUrl?: string | null;
+    review?: ProofReview | null;
   };
 }
 
@@ -99,6 +102,12 @@ export default function ChatView({
                     </button>
                   )}
                 </div>
+                <QuestProof
+                  questId={m.quest.id}
+                  canAdd={m.quest.canComplete}
+                  initialImageUrl={m.quest.proofImageUrl}
+                  initialReview={m.quest.review}
+                />
               </div>
             ) : (
               <div style={{ display: "flex", alignItems: "flex-end", gap: 6, maxWidth: "85%" }}>

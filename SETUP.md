@@ -11,7 +11,8 @@ The app talks to Supabase tables that don't exist yet.
    (https://supabase.com/dashboard/project/dfozldacxobattephnun/sql/new)
 2. Paste the entire contents of [`supabase/schema.sql`](supabase/schema.sql).
 3. Click **Run**. It creates all tables, RLS policies, the signup trigger,
-   the `complete_quest` / `buy_cosmetic` functions, seeds the shop, and adds
+   the `complete_quest` / `buy_cosmetic` functions, seeds the shop, adds the
+   `quest-proofs` storage bucket (for AI-reviewed proof photos), and adds
    `messages` / `quests` / `friendships` to the `supabase_realtime` publication
    so the UI live-updates over websockets. It's safe to re-run.
 
@@ -43,7 +44,8 @@ Open http://localhost:3000 → you'll land on `/login` → **Sign up**.
 3. Alice → **✦ (give)** → pick Bob → try all 3 modes:
    **✍️ Write**, **✨ AI assist** (type an idea), **🎲 Surprise** (full AI) →
    category + difficulty → win gesture → **Send**.
-4. Bob → **Quests** home → **Done! ✓** → 🎉 celebration → coins + streak flame.
+4. Bob → **Quests** home → optional **📸 Add proof photo** → AI judge scores it
+   (verdict + feedback) → **Done! ✓** → 🎉 celebration → coins + streak flame.
 5. Bob → **Shop** → buy a nickname color / glasses / flame → **Equip** → see it
    on the **Me** (profile) tab.
 6. Groups: **Me → My circles** → create a circle, add friends → open it →

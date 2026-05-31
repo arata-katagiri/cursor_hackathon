@@ -48,6 +48,15 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
             reward: quest.reward_coins,
             status: quest.status,
             canComplete: quest.receiver_id === profile.id,
+            proofImageUrl: quest.proof_image_url,
+            review: quest.ai_verdict
+              ? {
+                  score: quest.ai_score ?? 0,
+                  verdict: quest.ai_verdict,
+                  feedback: quest.ai_feedback ?? "",
+                  passed: (quest.ai_score ?? 0) >= 50,
+                }
+              : undefined,
           }
         : undefined,
     };

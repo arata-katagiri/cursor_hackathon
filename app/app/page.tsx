@@ -17,6 +17,15 @@ export default async function AppHome() {
     status: quest.status,
     fromName: other.display_name,
     fromLook: other.avatar_look,
+    proofImageUrl: quest.proof_image_url,
+    review: quest.ai_verdict
+      ? {
+          score: quest.ai_score ?? 0,
+          verdict: quest.ai_verdict,
+          feedback: quest.ai_feedback ?? "",
+          passed: (quest.ai_score ?? 0) >= 50,
+        }
+      : null,
   }));
 
   return (

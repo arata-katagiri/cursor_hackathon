@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Avatar from "./Avatar";
 import Celebration from "./Celebration";
+import QuestProof from "./QuestProof";
 import { catById, gestureById, HYPE, rand } from "./data";
 import type { CelebrationData } from "./types";
 import { completeQuest } from "@/app/actions/quests";
-import type { AvatarLook } from "@/lib/db/types";
+import type { AvatarLook, ProofReview } from "@/lib/db/types";
 
 export interface FeedQuest {
   id: string;
@@ -17,6 +18,8 @@ export interface FeedQuest {
   status: string;
   fromName: string;
   fromLook: AvatarLook;
+  proofImageUrl?: string | null;
+  review?: ProofReview | null;
 }
 
 export default function QuestFeed({
@@ -128,6 +131,7 @@ export default function QuestFeed({
                 {busy === q.id ? "…" : "Done! ✓"}
               </button>
             </div>
+            <QuestProof questId={q.id} initialImageUrl={q.proofImageUrl} initialReview={q.review} />
           </div>
         );
       })}
