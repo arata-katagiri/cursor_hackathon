@@ -1,0 +1,61 @@
+/* ===========================================================
+   BroQuest — avatar (composed from CSS primitives)
+   Everything sized in % of the container so it scales.
+   =========================================================== */
+
+.av { position: relative; border-radius: 50%; flex: 0 0 auto; }
+.av-skin {
+  position: absolute; inset: 0; z-index: 1; border-radius: 50%; overflow: hidden;
+  background:
+    radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--skin), #fff 18%), var(--skin) 72%);
+  box-shadow: inset 0 -8% 16% -6% rgba(0,0,0,.12);
+}
+.av-ring { position: absolute; inset: 0; border-radius: 50%; z-index: 6; box-shadow: inset 0 0 0 2px rgba(0,0,0,.05); }
+
+/* back hair (behind the face — only pokes out at the edges) */
+.av-back { position: absolute; z-index: 0; }
+.back-long { top: 6%; left: -7%; right: -7%; bottom: -2%; border-radius: 46% 46% 42% 42%; }
+.back-curls { top: 0%; left: -9%; right: -9%; bottom: 8%; border-radius: 50%; }
+
+/* fringe / front hair */
+.av-fringe { position: absolute; z-index: 2; top: -8%; left: -7%; right: -7%; height: 46%; }
+.fringe-short  { border-radius: 50% 50% 18% 18% / 78% 78% 30% 30%; }
+.fringe-swoop  { border-radius: 60% 44% 14% 40% / 80% 72% 26% 38%; height: 42%; right: -2%; left: -10%; }
+.fringe-curls  { border-radius: 50% 50% 46% 46%; height: 40%; }
+.fringe-buzz   { border-radius: 50% 50% 30% 30% / 70% 70% 40% 40%; height: 36%; top: -6%; opacity: .95; }
+
+.av-bun { position: absolute; z-index: 0; top: -14%; left: 50%; transform: translateX(-50%); width: 36%; height: 36%; border-radius: 50%; }
+
+/* face features */
+.av-eyes { position: absolute; z-index: 3; top: 47%; left: 0; right: 0; display: flex; justify-content: center; gap: 20%; }
+.av-eyes span {
+  width: 12.5%; aspect-ratio: 1 / 1.18; background: #2c2533; border-radius: 50%; position: relative;
+}
+.av-eyes span::after { content: ""; position: absolute; top: 12%; left: 18%; width: 38%; height: 34%; background: #fff; border-radius: 50%; }
+
+.av-mouth {
+  position: absolute; z-index: 3; top: 66%; left: 50%; transform: translateX(-50%);
+  width: 26%; height: 15%; background: #c8556a; border-radius: 22% 22% 60% 60% / 30% 30% 100% 100%;
+  box-shadow: inset 0 30% 0 -8% color-mix(in srgb, #c8556a, #fff 30%);
+}
+.av.smiley .av-mouth { height: 18%; border-radius: 14% 14% 50% 50% / 20% 20% 100% 100%; }
+
+.av-blush i { position: absolute; z-index: 2; width: 15%; height: 8.5%; border-radius: 50%; background: rgba(255,110,130,.42); top: 60%; }
+.av-blush i:first-child { left: 13%; }
+.av-blush i:last-child { right: 13%; }
+
+/* glasses */
+.av-glasses i { position: absolute; z-index: 4; width: 25%; aspect-ratio: 1; border: 0.085em solid #2c2533; border-radius: 50%; top: 41%; background: rgba(255,255,255,.14); }
+.av-glasses i:first-child { left: 11%; }
+.av-glasses i:last-child { right: 11%; }
+.av-glasses .bridge { position: absolute; z-index: 4; top: 49%; left: 50%; transform: translateX(-50%); width: 16%; height: 0.08em; background: #2c2533; border: 0; border-radius: 2px; }
+
+/* baseball cap */
+.av-cap { position: absolute; z-index: 5; top: -16%; left: -8%; right: -8%; height: 44%; border-radius: 50% 50% 14% 14% / 86% 86% 30% 30%; }
+.av-cap::after { content: ""; position: absolute; bottom: 8%; left: 6%; width: 64%; height: 26%; background: inherit; border-radius: 0 0 70% 30%; filter: brightness(.92); }
+
+/* freckles option via blush slot reused — skip */
+
+/* avatar stack name pill */
+.av-stack { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; }
+.av-stack .nm { font-family: var(--font-head); font-weight: 800; font-size: 12.5px; }
