@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // BroQuest design prototype (raw browser-React reference, not compiled app code)
+    "broquest/**",
   ]),
 ]);
 
