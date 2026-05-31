@@ -6,6 +6,7 @@ import Avatar from "./Avatar";
 import { catById } from "./data";
 import { sendMessage } from "@/app/actions/chat";
 import { completeQuest } from "@/app/actions/quests";
+import { useRealtimeRefresh } from "./Realtime";
 import type { AvatarLook } from "@/lib/db/types";
 
 export interface ChatMessage {
@@ -39,9 +40,12 @@ export default function ChatView({
   const [busy, setBusy] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  // Light polling so new messages from the other side appear (demo-grade realtime).
+  // Realtime: push new messages instantly over a websocket (best-effort).
+  useRealtimeRefresh(`chat-${chatId}`, [{ table: "messages", filter: `chat_id=eq.${chatId}` }]);
+
+  // Polling fallback in case realtime is unavailable — slow, just a safety net.
   useEffect(() => {
-    const t = setInterval(() => router.refresh(), 4000);
+    const t = setInterval(() => router.refresh(), 10000);
     return () => clearInterval(t);
   }, [router]);
 

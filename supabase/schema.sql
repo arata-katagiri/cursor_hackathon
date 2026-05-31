@@ -384,3 +384,28 @@ select * from (values
   ('flame_decoration'::text, 'Golden Crown',     450, 'crown')
 ) as v(category, name, price, asset_ref)
 where not exists (select 1 from public.cosmetics c where c.name = v.name);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Realtime: expose tables on the supabase_realtime publication (idempotent).
+-- The client subscribes to postgres_changes over a websocket to live-refresh
+-- the UI. RLS still applies, so each user only receives rows they may SELECT.
+-- Safe to re-run. If realtime is ever off, the app falls back to navigation /
+-- action refreshes (and polling in chat) — nothing breaks.
+-- ─────────────────────────────────────────────────────────────────────────────
+do $$
+declare
+  t text;
+begin
+  if not exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    create publication supabase_realtime;
+  end if;
+
+  foreach t in array array['messages', 'quests', 'friendships'] loop
+    if not exists (
+      select 1 from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
+    ) then
+      execute format('alter publication supabase_realtime add table public.%I', t);
+    end if;
+  end loop;
+end $$;

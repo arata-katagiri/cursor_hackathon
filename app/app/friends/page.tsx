@@ -2,6 +2,7 @@
 import { requireProfile } from "@/lib/auth";
 import { getFriends, getIncomingRequests } from "@/lib/queries";
 import FriendsManager, { type CrewMember } from "@/components/broquest/FriendsManager";
+import Realtime from "@/components/broquest/Realtime";
 
 export default async function FriendsPage() {
   const profile = await requireProfile();
@@ -30,5 +31,10 @@ export default async function FriendsPage() {
     nicknameColor: p.nickname_color,
   }));
 
-  return <FriendsManager crew={crew} incoming={incoming} />;
+  return (
+    <>
+      <Realtime channel={`friends-${profile.id}`} subs={[{ table: "friendships" }]} />
+      <FriendsManager crew={crew} incoming={incoming} />
+    </>
+  );
 }

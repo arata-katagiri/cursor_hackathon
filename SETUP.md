@@ -11,8 +11,12 @@ The app talks to Supabase tables that don't exist yet.
    (https://supabase.com/dashboard/project/dfozldacxobattephnun/sql/new)
 2. Paste the entire contents of [`supabase/schema.sql`](supabase/schema.sql).
 3. Click **Run**. It creates all tables, RLS policies, the signup trigger,
-   the `complete_quest` / `buy_cosmetic` functions, and seeds the shop.
-   It's safe to re-run.
+   the `complete_quest` / `buy_cosmetic` functions, seeds the shop, and adds
+   `messages` / `quests` / `friendships` to the `supabase_realtime` publication
+   so the UI live-updates over websockets. It's safe to re-run.
+
+   (Realtime is best-effort: if it's ever off, the app falls back to action /
+   navigation refreshes and chat polling — nothing breaks.)
 
 ## 2. Turn off email confirmation  ⚠️ required for instant signup
 

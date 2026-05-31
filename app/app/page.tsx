@@ -2,6 +2,7 @@
 import { requireProfile } from "@/lib/auth";
 import { getIncomingQuests } from "@/lib/queries";
 import QuestFeed, { type FeedQuest } from "@/components/broquest/QuestFeed";
+import Realtime from "@/components/broquest/Realtime";
 
 export default async function AppHome() {
   const profile = await requireProfile();
@@ -20,6 +21,7 @@ export default async function AppHome() {
 
   return (
     <div>
+      <Realtime channel={`home-${profile.id}`} subs={[{ table: "quests", filter: `receiver_id=eq.${profile.id}` }]} />
       <div style={{ padding: "2px 18px 0" }}>
         <div className="greet">
           Hey, {profile.display_name} 👋

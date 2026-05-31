@@ -3,6 +3,7 @@ import { requireProfile } from "@/lib/auth";
 import { getIncomingQuests, getOutgoingQuests } from "@/lib/queries";
 import { catById } from "@/components/broquest/data";
 import CompleteButton from "@/components/broquest/CompleteButton";
+import Realtime from "@/components/broquest/Realtime";
 import type { QuestStatus } from "@/lib/db/types";
 
 const STATUS_LABEL: Record<QuestStatus, string> = {
@@ -34,6 +35,7 @@ export default async function QuestsPage() {
 
   return (
     <div>
+      <Realtime channel={`quests-${profile.id}`} subs={[{ table: "quests" }]} />
       <div className="screen-title">Quests</div>
       <div className="screen-sub">Everything you owe and everything you dared.</div>
 
