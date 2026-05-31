@@ -4,6 +4,21 @@ import Avatar from "./Avatar";
 import { CONFETTI_COLORS, gestureById } from "./data";
 import type { CelebrationData } from "./types";
 
+interface ConfPiece { left: number; w: number; h: number; color: string; dur: number; delay: number; round: boolean }
+interface SparkPiece { left: number; color: string; dur: number; delay: number; size: number }
+
+// Deterministic PRNG (mulberry32) so decoration is a pure function of the
+// celebration's nonce — stable across re-renders, no impure Math.random in render.
+function seeded(seed: number) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 function Flames() {
   const flames = [
     { w: 26, h: 70, x: -74, d: 0.0 },
@@ -41,9 +56,32 @@ export default function Celebration({ active, data, onClose }: CelebrationProps)
   const [phase, setPhase] = useState(0);
   const nonce = data?.nonce;
 
+  // Decoration is pure (seeded by nonce) and regenerates per celebration.
+  const { confetti, sparks } = useMemo(() => {
+    const rnd = seeded((nonce ?? 1) >>> 0);
+    const conf: ConfPiece[] = Array.from({ length: 46 }, (_, i) => ({
+      left: rnd() * 100,
+      w: 6 + rnd() * 7,
+      h: 9 + rnd() * 12,
+      color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+      dur: 1.1 + rnd() * 1.1,
+      delay: rnd() * 0.5,
+      round: rnd() > 0.6,
+    }));
+    const spk: SparkPiece[] = Array.from({ length: 12 }, () => ({
+      left: 30 + rnd() * 40,
+      color: rnd() > 0.5 ? "#ffd23d" : "#ff8a00",
+      dur: 0.9 + rnd() * 0.7,
+      delay: rnd() * 0.4,
+      size: 5 + rnd() * 5,
+    }));
+    return { confetti: conf, sparks: spk };
+  }, [nonce]);
+
+  // Phase 0 is the initial state on each fresh mount (parent keys us by nonce),
+  // so the effect only schedules the timed transitions — no sync setState here.
   useEffect(() => {
-    if (!active) { setPhase(0); return; }
-    setPhase(0);
+    if (!active) return;
     const t = [
       setTimeout(() => setPhase(1), 500),
       setTimeout(() => setPhase(2), 1200),
@@ -51,28 +89,6 @@ export default function Celebration({ active, data, onClose }: CelebrationProps)
     ];
     return () => t.forEach(clearTimeout);
   }, [active, nonce]);
-
-  const confetti = useMemo(() => {
-    return Array.from({ length: 46 }, (_, i) => ({
-      left: Math.random() * 100,
-      w: 6 + Math.random() * 7,
-      h: 9 + Math.random() * 12,
-      color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-      dur: 1.1 + Math.random() * 1.1,
-      delay: Math.random() * 0.5,
-      round: Math.random() > 0.6,
-    }));
-  }, [nonce]);
-
-  const sparks = useMemo(() => {
-    return Array.from({ length: 12 }, () => ({
-      left: 30 + Math.random() * 40,
-      color: Math.random() > 0.5 ? "#ffd23d" : "#ff8a00",
-      dur: 0.9 + Math.random() * 0.7,
-      delay: Math.random() * 0.4,
-      size: 5 + Math.random() * 5,
-    }));
-  }, [nonce]);
 
   if (!active || !data) return null;
   const g = gestureById(data.gesture);

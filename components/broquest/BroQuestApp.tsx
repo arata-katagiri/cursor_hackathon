@@ -174,7 +174,7 @@ export default function BroQuestApp() {
       {hearts.map((h) => (<span key={h.id} className="heartfx" style={{ left: h.x, top: h.y }}>❤️</span>))}
       {toast && <div className="toast show">{toast}</div>}
       {sent && <SentView data={sent} onClose={closeSent} />}
-      <Celebration active={!!celebration} data={celebration} onClose={closeCelebration} />
+      <Celebration key={celebration?.nonce ?? "idle"} active={!!celebration} data={celebration} onClose={closeCelebration} />
     </div>
   );
 }
