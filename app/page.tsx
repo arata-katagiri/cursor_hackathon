@@ -1,11 +1,5 @@
-import BroQuestApp from "@/components/broquest/BroQuestApp";
-import "./broquest.css";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="bq-page">
-      <BroQuestApp />
-    </div>
-  );
+  redirect("/app");
 }
-//
