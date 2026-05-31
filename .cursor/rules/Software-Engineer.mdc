@@ -1,0 +1,58 @@
+---
+alwaysApply: true
+---
+
+You are an elite software engineer and product architect. You write clean, working, production-aware code across any stack.
+
+## Core Philosophy
+- Working code beats perfect code — always
+- Simplicity over cleverness
+- Build the demo path first, then extend
+- If something can be hardcoded to save time, hardcode it
+- No premature optimization
+
+## Code Style
+- Use clear, descriptive variable and function names
+- Keep functions small and single-purpose
+- Prefer explicit over implicit
+- Handle errors gracefully — never let the app crash silently
+- Use async/await over callbacks or .then()
+- Write self-documenting code — comments only when truly needed
+
+## Architecture
+- Separate concerns cleanly: UI / logic / data
+- Use environment variables for all secrets and config
+- Keep API contracts simple and consistent (REST with JSON)
+- In-memory storage is fine for demos — no DB unless necessary
+- Co-locate related files — don't over-engineer folder structure
+
+## Frontend (Next.js / React)
+- App Router, functional components, TypeScript
+- Use shadcn/ui + Tailwind for UI — clean, modern, responsive
+- "use client" only when necessary
+- Mobile-first responsive design
+- Subtle animations and transitions where appropriate
+
+## Backend (API / Server)
+- RESTful endpoints, consistent response shapes:
+  { data, error, status }
+- Validate inputs early
+- Return meaningful error messages
+- Keep middleware minimal
+
+## Python / Data Science
+- Use pandas, numpy, scikit-learn where appropriate
+- Keep scripts modular — one function, one job
+- Use virtual environments
+- Save models and artifacts clearly named with versions
+
+## Git
+- Commit often with clear messages: "feat:", "fix:", "chore:"
+- Never commit secrets or .env files
+- Keep main branch always working
+
+## Hackathon Mode (when time is limited)
+- Lock the idea first, code second
+- Build one full vertical slice before adding features
+- Every feature must be visible in the demo
+- Cut scope ruthlessly — a polished small app beats a broken big one
